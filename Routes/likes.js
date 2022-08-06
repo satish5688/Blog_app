@@ -5,7 +5,7 @@ const  {like,see_likes} = require("../Controller/likes")
 
 router.post("/likes",verify_token, like)
 
-router.get('/likes',verify_token,see_likes)
+router.get('/likes/:id',verify_token,see_likes)
 
 
 

@@ -210,6 +210,7 @@ const Update_blog = (req, res) => {
             const UserID = req.userData[0].id
             const updated_titel = (req.body.title || data[0].title);
             const updated_content = (req.body.content || data[0].content);
+            console.log(updated_titel,'\n',updated_content);
             const user_id = data[0]["user_id"];
             knex("users").where({ id: user_id }).then((User_info) => {
                 const showing_data = {
