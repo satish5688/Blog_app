@@ -17,7 +17,7 @@ const verify_token = async (req, res, next) => {
         next()
     } else {
         res.status(401).send({
-            "status": "error",
+            "status": "error", 
             "message": "Authantication failed."
         })
     }

@@ -121,4 +121,44 @@ const see_likes = (req, res) => {
 
 
 
-module.exports = { like, see_likes }
+const see_all_blog_like = (req, res) => {
+    knex("*").from("users").join('blogs', "blogs.user_id", "users.id").then(async(data) => {
+        const all_data = []
+        for (s of data) {
+            const id=s["id"]
+            const like=await knex('likes').where({blog_id:id})
+            const like_data=like.length
+            let New_data = {
+                "id": s['id'],
+                "title": s['title'],
+                "content": s["content"],
+                'lieks':like_data,
+                "user_id": s["user_id"],
+                "posted user": {
+                    "name": s['name'],
+                    "email": s['email']
+                }
+            }
+            all_data.push(New_data)
+        }
+        if (all_data.length == 0) {
+            console.log("data is not avaleble");
+            res.status(404).send({
+                "status": "error",
+                "message": "blogs are not availeble"
+            })
+        } else {
+
+            console.log('showing data');
+            res.send({
+                "status": "success",
+                "count": all_data.length,
+                "data": all_data
+            })
+        }
+    }).catch((err) => {
+        console.log(err);
+        res.send(err.message)
+    })
+}
+module.exports = { like, see_likes, see_all_blog_like }

@@ -14,8 +14,7 @@ const post_blog = (req, res) => {
         if (Object.keys(req.body).length == 0) {
             res.status(204).send({ "status": "error", "message": "you can not add empty blog" })
         } else {
-            knex("users").where({ id }).then((data) => {
-                console.log(data);
+            knex("users").where({ id }).then((data) => {    
                 knex("blogs").insert({ title, content, user_id: id }).then((info) => {
                     console.log('Blog added');
                     const name = data[0]['name']
@@ -97,6 +96,7 @@ const Get_all_blogs = (req, res) => {
 
 const Get_blog = (req, res) => {
     const JWT_id = req.userData
+    console.log(JWT_id);
     if (JWT_id.length == 0) {
         res.status(400).send({
             "status": "error",
@@ -150,13 +150,13 @@ const Get_blog = (req, res) => {
 
 
 const Delete_blog = (req, res) => {
-    const id = req.params.id
     if (req.userData.length == 0) {
         res.status(400).send({
             "status": "error",
             "message": "this user does not exist in database"
         })
     } else {
+        const id = req.params.id
         const UserID = req.userData[0].id
         knex("blogs").where({ id }).then((New_data) => {
             if (New_data.length == 0) {
@@ -168,6 +168,7 @@ const Delete_blog = (req, res) => {
                 const user_id = New_data[0]['user_id']
                 if (UserID == user_id) {
                     knex('blogs').where({ id }).del().then((data) => {
+
                         console.log("blog deleted");
                         if (data == 1) {
                             res.send({
