@@ -132,12 +132,12 @@ const see_all_blog_like = (req, res) => {
                 "id": s['id'],
                 "title": s['title'],
                 "content": s["content"],
-                'lieks':like_data,
                 "user_id": s["user_id"],
                 "posted user": {
                     "name": s['name'],
                     "email": s['email']
-                }
+                },
+                'lieks':like_data,
             }
             all_data.push(New_data)
         }

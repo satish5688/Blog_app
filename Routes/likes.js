@@ -7,7 +7,7 @@ router.post("/likes",verify_token, like)
 
 router.get('/likes/:id',verify_token,see_likes)
 
-router.get('/likes',see_all_blog_like)
+router.get('/likes',verify_token,see_all_blog_like)
 
 
 

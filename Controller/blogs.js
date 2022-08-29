@@ -96,7 +96,7 @@ const Get_all_blogs = (req, res) => {
 
 const Get_blog = (req, res) => {
     const JWT_id = req.userData
-    console.log(JWT_id);
+    // console.log(JWT_id);
     if (JWT_id.length == 0) {
         res.status(400).send({
             "status": "error",
@@ -158,7 +158,7 @@ const Delete_blog = (req, res) => {
     } else {
         const id = req.params.id
         const UserID = req.userData[0].id
-        knex("blogs").where({ id }).then((New_data) => {
+        knex("blogs").where({ id }).then(async(New_data) => {
             if (New_data.length == 0) {
                 res.status(404).send({
                     "status": "error",
@@ -167,6 +167,7 @@ const Delete_blog = (req, res) => {
             } else {
                 const user_id = New_data[0]['user_id']
                 if (UserID == user_id) {
+                    await knex('likes').where({blog_id:id}).del()
                     knex('blogs').where({ id }).del().then((data) => {
 
                         console.log("blog deleted");
