@@ -126,7 +126,7 @@ const see_all_blog_like = (req, res) => {
         const all_data = []
         for (s of data) {
             const id=s["id"]
-            const like=await knex('likes').where({blog_id:id})
+            const like=await knex('likes').where({blog_id:id,like:1})
             const like_data=like
             let New_data = {
                 "id": s['id'],
